@@ -7,6 +7,7 @@ Created on Wed Nov 14 09:42:26 2018
 """
 
 import tkinter as tk
+from functools import partial
 
 BARVY = "#c90000 #99dd00 #0000ff #ffff00 #008888 #880088 #dd9900 #ffffff".split()
 BTN_W = 30
@@ -17,7 +18,7 @@ class Application(tk.Frame):
         super().__init__(master)
         self.gui()
         #self.tlacbarvy()
-        #self.level = 1
+        self.level = 1
         
     def gui(self):
         offset = 0
@@ -53,8 +54,8 @@ class Application(tk.Frame):
         self.napispaleta.grid(column=0, row=offset, columnspan=5)
         
         # TLACITKO ODESLAT
-        sendbut = tk.Button(self.master, text="Odeslat", command=self.kontrola)
-        sendbut.grid(column=5, row=offset)
+        self.sendbut = tk.Button(self.master, text="Odeslat", command=self.kontrola)
+        self.sendbut.grid(column=5, row=offset)
         offset += 1
         
         # SPODNI POLE BAREV
@@ -62,27 +63,20 @@ class Application(tk.Frame):
         for y, barva in enumerate(BARVY):
             self.buttons_3.append([])
             for x in range(5):
+                akce = partial(self.zmacknutiBarvy, x, y, barva)
                 button = tk.Button(self.master, background=barva, image=PIXEL, width=BTN_W, 
-                                   height=BTN_H, command=lambda: self.zmacknutiBarvy(y, x, barva))
+                                   height=BTN_H, command=akce)
                 button.grid(column=x, row=offset)
-                self.button_3.append(button)
+                self.buttons_3.append(button)
             offset += 1
         
         pass
     
     def kontrola(self):
         pass
-    
-    def tlacBarvy(self, x, y):
-        tlacitka = []
-        for a in range(y):
-            tlacitka.append([])
-            for b in range(x):
-                pass
-                # udelej neco
                 
-    def zmacknutiBarvy(self, *args):
-        pass
+    def zmacknutiBarvy(self, x, y, barva):
+        print(x, y, barva)
     
     def confirm(self):
         pass
